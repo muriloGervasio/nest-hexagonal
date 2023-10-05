@@ -1,0 +1,43 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model UserEntity {
+  id     Int        @id @default(autoincrement())
+  name   String
+  role   RoleEntity @relation(fields: [roleId], references: [id])
+  roleId Int
+
+  @@map("user")
+}
+
+model RoleEntity {
+  id          Int               @id @default(autoincrement())
+  description String
+  acess       RoleAcessEntity[]
+  User        UserEntity[]
+
+  @@map("role")
+}
+
+model RoleAcessEntity {
+  id     Int        @id @default(autoincrement())
+  name   String
+  create Boolean
+  read   Boolean
+  update Boolean
+  remove Boolean
+  role   RoleEntity @relation(fields: [roleId], references: [id])
+  roleId Int
+
+  @@unique([roleId, name])
+  @@map("role_acess")
+}
