@@ -22,7 +22,7 @@ model UserEntity {
 model RoleEntity {
   id          Int               @id @default(autoincrement())
   description String
-  acess       RoleAcessEntity[]
+  access      RoleAcessEntity[]
   User        UserEntity[]
 
   @@map("role")
